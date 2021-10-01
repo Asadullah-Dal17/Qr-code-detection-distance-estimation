@@ -174,12 +174,26 @@ while True:
         new_points, status, error = cv.calcOpticalFlowPyrLK(old_gray, gray_frame, old_points, None, **lk_params)
         old_points = new_points 
         new_points=new_points.astype(int)
-        n = (len(new_points))
+        # n = (len(new_points))
+        # print(new_points)
+
+
         cv.line(frame, new_points[0], new_points[1], MAGENTA, 3, cv.LINE_AA)
         cv.line(frame, new_points[1], new_points[2], MAGENTA, 3, cv.LINE_AA)
         cv.line(frame, new_points[2], new_points[3], MAGENTA, 3, cv.LINE_AA)
         cv.line(frame, new_points[3], new_points[0], MAGENTA, 3, cv.LINE_AA)
+        cv.circle(frame, (new_points[1]), 3, BLACK, 2)
         cv.circle(frame, (new_points[0]), 3, GREEN, 2)
+
+        x, y = new_points[0].ravel()
+        x1, y1 = new_points[1].ravel()  
+        print(x, y )
+        qr_height = eucaldainDistance(x, y, x1, y1)
+        distance = distancefinder(focal_length, KNOWN_WIDTH, qr_height)
+        AiPhile.textBGoutline(frame, f'Distance: {round(distance,2)} cm', (340,50), scaling=0.8,bg_color=AiPhile.BLACK, text_color=AiPhile.YELLOW )
+
+
+
 
     
     old_gray = gray_frame.copy()
