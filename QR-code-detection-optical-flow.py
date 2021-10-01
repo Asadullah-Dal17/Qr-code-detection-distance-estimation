@@ -79,7 +79,11 @@ starting_time =time.time()
 while True:
     frame_counter +=1
     ret, frame = cap.read()
+    img = frame.copy()
+    # img = cv.resize(img, None, fx=2, fy=2,interpolation=cv.INTER_CUBIC)
     cv.imshow('old frame ', old_gray)
+    cv.imshow('img', img)
+
     gray_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
     # display the image and wait for a keypress
     clone = frame.copy()
@@ -126,8 +130,8 @@ while True:
     old_gray = gray_frame.copy()
     # press 'r' to reset the window
     key = cv.waitKey(1)
-    if key == ord("r"):
-        frame = clone.copy()
+    if key == ord("s"):
+        cv.imwrite(f'reference_img/Ref_img{frame_counter}.png', img)
 
     # if the 'c' key is pressed, break from the loop
     elif key == ord("q"):
