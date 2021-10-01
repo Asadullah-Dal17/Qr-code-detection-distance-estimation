@@ -16,6 +16,7 @@ import numpy as np
 from pyzbar.pyzbar import decode
 import pyzbar
 import time
+import math
 import AiPhile
 # now let's initialize the list of reference point
 # colors
@@ -28,8 +29,13 @@ GOLD = (0, 255, 215)
 YELLOW = (0, 255, 255)
 ORANGE = (0, 165, 230)
 
-#
 
+#
+def eucaldainDistance(x, y, x1, y1):
+
+    eucaldainDist = math.sqrt((x1 - x) ** 2 + (y1 - y) ** 2)
+
+    return eucaldainDist
 def focalLength(measured_distance, real_width, width_in_rf_image):
 
     focal_length = (width_in_rf_image * measured_distance) / real_width
@@ -41,7 +47,6 @@ def distancefinder(Focal_Length, real_face_width, face_width_in_frame):
 
     distance = (real_face_width * Focal_Length)/face_width_in_frame
     return distance
-
 
 
 # QR code detector function 
@@ -99,6 +104,23 @@ points = [()]
 old_points = np.array([[]])
 qr_detected= False
 # stop_code=False
+# reading reference image here 
+reference_image = cv.imread('../reference_img/Ref_img180.png')
+ref_point = detectQRcode(reference_image)
+if ref_point:
+    print('detect Qr code in reference image')
+    x, x1 = ref_point[0][0], ref_point[1][0]
+    y, y1 = ref_point[0][1], ref_point[1][1]
+    ref_height = eucaldainDistance(x, y, x1, y1)
+    cv.line(reference_image, (x-10,y), (x-10, y+int(ref_height)), AiPhile.RED, 3, cv.LINE_AA)
+    
+    AiPhile.textBGoutline(reference_image, f'height: {round(ref_height)}', (300,40))
+    
+    cv.line(reference_image, (x,y), (x1, y1), GREEN, 3, cv.LINE_AA)
+
+else:
+    print('QR code is not, in reference image')
+cv.imshow('Reference image', reference_image)
 
 frame_counter =0
 starting_time =time.time()
@@ -121,6 +143,12 @@ while True:
         AiPhile.textBGoutline(frame, f'Detection: Pyzbar', (30,80), scaling=0.5,bg_color=(AiPhile.PURPLE ))
 
         pt1, pt2, pt3, pt4 = hull_points
+
+        x, y = pt1
+        x1, y1 = pt2
+        eucaldain_dist = eucaldainDistance(x, y, x1, y1) #height or width of qr code 
+        # x, x1 = hull_points[0][0], hull_points[1][0]
+        # y, y1 = hull_points[0][1], hull_points[1][1]
         qr_detected= True
         stop_code=True
         old_points = np.array([pt1, pt2, pt3, pt4], dtype=np.float32)
