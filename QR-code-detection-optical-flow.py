@@ -4,7 +4,7 @@ import numpy as np
 from pyzbar.pyzbar import decode
 import pyzbar
 import time
-
+import AiPhile
 # now let's initialize the list of reference point
 # colors
 WHITE = (255, 255, 255)
@@ -87,7 +87,8 @@ while True:
     # print(old_points.size)
     stop_code=False
     if hull_points:
-        cv.putText(frame, 'PyZbar', (30,50), cv.FONT_HERSHEY_COMPLEX, 1.0, YELLOW, 2)
+        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (200,40), scaling=0.5,bg_color=(AiPhile.PURPLE))
+
         pt1, pt2, pt3, pt4 = hull_points
         qr_detected= True
         stop_code=True
@@ -98,7 +99,9 @@ while True:
         cv.circle(frame, pt3, 3, YELLOW, 3)
         cv.circle(frame, pt4, 3, (0, 0, 255), 3)
     if qr_detected and stop_code==False:
-        cv.putText(frame, 'Optical Flow', (30,50), cv.FONT_HERSHEY_COMPLEX, 1.0, YELLOW, 2)
+        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (200,40), scaling=0.5,bg_color=(AiPhile.ORANGE))
+
+        # cv.putText(frame, 'Optical Flow', (30,50), cv.FONT_HERSHEY_COMPLEX, 1.0, YELLOW, 2)
 
         # print('detecting')
         new_points, status, error = cv.calcOpticalFlowPyrLK(old_gray, gray_frame, old_points, None, **lk_params)
@@ -119,7 +122,7 @@ while True:
         # x, y = new_points.ravel()
         # print(new_points[0])
 
-
+    
     old_gray = gray_frame.copy()
     # press 'r' to reset the window
     key = cv.waitKey(1)
@@ -129,6 +132,8 @@ while True:
     # if the 'c' key is pressed, break from the loop
     elif key == ord("q"):
         break
+    fps = frame_counter/(time.time()-starting_time)
+    AiPhile.textBGoutline(frame, f'FPS: {round(fps,1)}', (30,40))
     cv.imshow("image", frame)
 
 
