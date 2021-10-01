@@ -187,15 +187,11 @@ while True:
 
         x, y = new_points[0].ravel()
         x1, y1 = new_points[1].ravel()  
-        print(x, y )
+        # print(x, y )/
         qr_height = eucaldainDistance(x, y, x1, y1)
         distance = distancefinder(focal_length, KNOWN_WIDTH, qr_height)
         AiPhile.textBGoutline(frame, f'Distance: {round(distance,2)} cm', (340,50), scaling=0.8,bg_color=AiPhile.BLACK, text_color=AiPhile.YELLOW )
 
-
-
-
-    
     old_gray = gray_frame.copy()
     # press 'r' to reset the window
     key = cv.waitKey(1)
