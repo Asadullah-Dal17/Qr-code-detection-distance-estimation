@@ -87,7 +87,7 @@ while True:
     # print(old_points.size)
     stop_code=False
     if hull_points:
-        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (200,40), scaling=0.5,bg_color=(AiPhile.PURPLE))
+        AiPhile.textBGoutline(frame, f'Detection: Pyzbar', (30,80), scaling=0.5,bg_color=(AiPhile.PURPLE ))
 
         pt1, pt2, pt3, pt4 = hull_points
         qr_detected= True
@@ -99,7 +99,7 @@ while True:
         cv.circle(frame, pt3, 3, YELLOW, 3)
         cv.circle(frame, pt4, 3, (0, 0, 255), 3)
     if qr_detected and stop_code==False:
-        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (200,40), scaling=0.5,bg_color=(AiPhile.ORANGE))
+        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=YELLOW)
 
         # cv.putText(frame, 'Optical Flow', (30,50), cv.FONT_HERSHEY_COMPLEX, 1.0, YELLOW, 2)
 
@@ -133,7 +133,7 @@ while True:
     elif key == ord("q"):
         break
     fps = frame_counter/(time.time()-starting_time)
-    AiPhile.textBGoutline(frame, f'FPS: {round(fps,1)}', (30,40))
+    AiPhile.textBGoutline(frame, f'FPS: {round(fps,1)}', (30,40), scaling=0.6)
     cv.imshow("image", frame)
 
 
