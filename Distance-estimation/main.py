@@ -19,6 +19,9 @@ import time
 import math
 import AiPhile
 # now let's initialize the list of reference point
+# important variables 
+KNOWN_WIDTH = 1.8 #centimeters
+KNOWN_DISTANCE = 15.5 # centimeters 
 # colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -114,8 +117,10 @@ if ref_point:
     ref_height = eucaldainDistance(x, y, x1, y1)
     cv.line(reference_image, (x-10,y), (x-10, y+int(ref_height)), AiPhile.RED, 3, cv.LINE_AA)
     
-    AiPhile.textBGoutline(reference_image, f'height: {round(ref_height)}', (300,40))
-    
+    AiPhile.textBGoutline(reference_image, f'height/width: {round(ref_height, 3)}', (30,40), scaling=0.6)
+    focal_length = focalLength(KNOWN_DISTANCE, KNOWN_WIDTH,ref_height)
+    AiPhile.textBGoutline(reference_image, f'Focal_length: {round(focal_length,3)}', (30,80), bg_color=AiPhile.PURPLE, scaling=0.6)
+
     cv.line(reference_image, (x,y), (x1, y1), GREEN, 3, cv.LINE_AA)
 
 else:
