@@ -1,3 +1,15 @@
+
+'''
+-------------------------------------------
+-    Author: Asadullah Dal                -
+-    =============================        -
+-    Company Name: AiPhile                -
+-    =============================        -
+-    Purpose : Youtube Channel            -
+-    ============================         -
+-    Link: https://youtube.com/c/aiphile  -
+-------------------------------------------
+'''
 # import the necessary packages
 import cv2 as cv 
 import numpy as np
@@ -17,7 +29,6 @@ YELLOW = (0, 255, 255)
 ORANGE = (0, 165, 230)
 
 # QR code detector function 
-
 
 def detectQRcode(image):
     # global Pos
@@ -44,7 +55,7 @@ def detectQRcode(image):
         for j in range(0, n):
             # print(j, "      ", (j + 1) % n, "    ", n)
 
-            cv.line(image, hull[j], hull[(j + 1) % n], WHITE, 3)
+            cv.line(image, hull[j], hull[(j + 1) % n], WHITE, 2, cv.LINE_AA)
 
         # finding width of QR code in the image
         x, x1 = hull[0][0], hull[1][0]
@@ -112,19 +123,11 @@ while True:
         old_points = new_points 
         new_points=new_points.astype(int)
         n = (len(new_points))
-        cv.line(frame, new_points[0], new_points[1], MAGENTA, 3)
-        cv.line(frame, new_points[1], new_points[2], MAGENTA, 3)
-        cv.line(frame, new_points[2], new_points[3], MAGENTA, 3)
-        cv.line(frame, new_points[3], new_points[0], MAGENTA, 3)
+        cv.line(frame, new_points[0], new_points[1], MAGENTA, 3, cv.LINE_AA)
+        cv.line(frame, new_points[1], new_points[2], MAGENTA, 3, cv.LINE_AA)
+        cv.line(frame, new_points[2], new_points[3], MAGENTA, 3, cv.LINE_AA)
+        cv.line(frame, new_points[3], new_points[0], MAGENTA, 3, cv.LINE_AA)
         cv.circle(frame, (new_points[0]), 3, GREEN, 2)
-
-
-
-
-        # [cv.line(frame, new_points[j], new_points[(j + 1) % n], YELLOW, 4) for j in new_points]
-
-        # x, y = new_points.ravel()
-        # print(new_points[0])
 
     
     old_gray = gray_frame.copy()
@@ -134,7 +137,7 @@ while True:
         cv.imwrite(f'reference_img/Ref_img{frame_counter}.png', img)
 
     # if the 'c' key is pressed, break from the loop
-    elif key == ord("q"):
+    if key == ord("q"):
         break
     fps = frame_counter/(time.time()-starting_time)
     AiPhile.textBGoutline(frame, f'FPS: {round(fps,1)}', (30,40), scaling=0.6)
