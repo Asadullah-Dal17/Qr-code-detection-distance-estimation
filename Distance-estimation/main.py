@@ -153,7 +153,7 @@ while True:
         x1, y1 = pt2
         eucaldain_dist = eucaldainDistance(x, y, x1, y1) #height or width of qr code 
         distance = distancefinder(focal_length, KNOWN_WIDTH, eucaldain_dist)
-        AiPhile.textBGoutline(frame, f'Detection: Pyzbar', (340,80), scaling=0.8,bg_color=AiPhile.PURPLE, text_color=AiPhile.YELLOW )
+        AiPhile.textBGoutline(frame, f'Distance: {round(distance,2)} cm', (340,50), scaling=0.8,bg_color=AiPhile.PURPLE, text_color=AiPhile.YELLOW )
 
         # x, x1 = hull_points[0][0], hull_points[1][0]
         # y, y1 = hull_points[0][1], hull_points[1][1]
