@@ -32,7 +32,6 @@ GOLD = (0, 255, 215)
 YELLOW = (0, 255, 255)
 ORANGE = (0, 165, 230)
 
-
 #
 def eucaldainDistance(x, y, x1, y1):
 
