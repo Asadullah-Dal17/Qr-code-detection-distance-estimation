@@ -29,7 +29,8 @@ pip install opencv-python pyzbar
 ```
 pip3 install opencv-python pyzbar
 ```
-Topics Covered will 
+---
+
 ## Basic of Optical Flow 🔍
 
 Tracking single point, using optical flow
@@ -43,6 +44,9 @@ Detecting the QR code with pyzbar
 Maximizing the Range 🐎 of QR code detecting with Optical-flow 🔎 
 
 ## Distance Estimation, Maximized Ranged Detection  
+
+Estimating the distance using QR code detection and Optical flow 
+
 
 Known width or height measurement, since QR code are Square(width and height are same here)
 
