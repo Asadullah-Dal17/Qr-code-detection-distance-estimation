@@ -139,7 +139,7 @@ while True:
         cv.circle(frame, pt3, 3, AiPhile.YELLOW, 3)
         cv.circle(frame, pt4, 3, (0, 0, 255), 3)
     if qr_detected and stop_code==False:
-        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=YELLOW)
+        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=AiPhile.YELLOW)
 
         new_points, status, error = cv.calcOpticalFlowPyrLK(old_gray, gray_frame, old_points, None, **lk_params)
         old_points = new_points 
