@@ -51,19 +51,7 @@ def detectQRcode(image):
             hull = points
 
         n = len(hull)
-        # draw the lines on the QR code
-        for j in range(0, n):
-            # print(j, "      ", (j + 1) % n, "    ", n)
-
-            cv.line(image, hull[j], hull[(j + 1) % n], WHITE, 2, cv.LINE_AA)
-
-        # finding width of QR code in the image
-        x, x1 = hull[0][0], hull[1][0]
-        y, y1 = hull[0][1], hull[1][1]
-        # coordinates = (x, y, x1, y1)
-        # # print(hull)
-        # pt1, pt2, pt3, pt4 = hull
-        # Pos = hull[3]
+  
         return hull
 
 ref_point = []
@@ -112,9 +100,9 @@ while True:
 
 
 
-        cv.circle(frame, pt1, 3, GREEN, 3)
+        cv.circle(frame, pt1, 3, AiPhile.GREEN, 3)
         cv.circle(frame, pt2, 3, (255, 0, 0), 3)
-        cv.circle(frame, pt3, 3, YELLOW, 3)
+        cv.circle(frame, pt3, 3,AiPhile.YELLOW, 3)
         cv.circle(frame, pt4, 3, (0, 0, 255), 3)
     if qr_detected and stop_code==False:
 
@@ -126,7 +114,7 @@ while True:
         new_points=new_points.astype(int)
         n = (len(new_points))
         frame =AiPhile.fillPolyTrans(frame, new_points, AiPhile.GREEN, 0.6)
-        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=GREEN)
+        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=AiPhile.GREEN)
 
 
         cv.circle(frame, (new_points[0]), 3, GREEN, 2)

@@ -22,17 +22,7 @@ import AiPhile
 # important variables 
 KNOWN_WIDTH = 1.8 #centimeters
 KNOWN_DISTANCE = 15.5 # centimeters 
-# colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-MAGENTA = (255, 0, 255)
-GREEN = (0, 255, 0)
-CYAN = (255, 255, 0)
-GOLD = (0, 255, 215)
-YELLOW = (0, 255, 255)
-ORANGE = (0, 165, 230)
 
-#
 def eucaldainDistance(x, y, x1, y1):
 
     eucaldainDist = math.sqrt((x1 - x) ** 2 + (y1 - y) ** 2)
@@ -54,7 +44,6 @@ def distancefinder(Focal_Length, real_face_width, face_width_in_frame):
 # QR code detector function 
 
 def detectQRcode(image):
-    # global Pos
     # convert the color image to gray scale image
     Gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
@@ -62,10 +51,9 @@ def detectQRcode(image):
     objectQRcode = pyzbar.pyzbar.decode(Gray)
     for obDecoded in objectQRcode: 
         x, y, w, h =obDecoded.rect
-        # cv.rectangle(image, (x,y), (x+w, y+h), ORANGE, 4)
+        cv.rectangle(image, (x,y), (x+w, y+h), AiPhile.ORANGE, 4)
         points = obDecoded.polygon
-        # print(points)
-        # print(type(points))
+  
         if len(points) > 4:
             hull = cv.convexHull(
                 np.array([points for point in points], dtype=np.float32))
@@ -74,19 +62,7 @@ def detectQRcode(image):
             hull = points
 
         n = len(hull)
-        # draw the lines on the QR code
-        for j in range(0, n):
-            # print(j, "      ", (j + 1) % n, "    ", n)
 
-            cv.line(image, hull[j], hull[(j + 1) % n], WHITE, 2, cv.LINE_AA)
-
-        # finding width of QR code in the image
-        x, x1 = hull[0][0], hull[1][0]
-        y, y1 = hull[0][1], hull[1][1]
-        # coordinates = (x, y, x1, y1)
-        # # print(hull)
-        # pt1, pt2, pt3, pt4 = hull
-        # Pos = hull[3]
         return hull
 
 ref_point = []
@@ -106,7 +82,7 @@ points = [()]
 old_points = np.array([[]])
 qr_detected= False
 # stop_code=False
-# reading reference image here 
+
 reference_image = cv.imread('../reference_img/Ref_img180.png')
 ref_point = detectQRcode(reference_image)
 if ref_point:
@@ -119,8 +95,7 @@ if ref_point:
     AiPhile.textBGoutline(reference_image, f'height/width: {round(ref_height, 3)}', (30,40), scaling=0.6)
     focal_length = focalLength(KNOWN_DISTANCE, KNOWN_WIDTH,ref_height)
     AiPhile.textBGoutline(reference_image, f'Focal_length: {round(focal_length,3)}', (30,80), bg_color=AiPhile.PURPLE, scaling=0.6)
-
-    cv.line(reference_image, (x,y), (x1, y1), GREEN, 3, cv.LINE_AA)
+    cv.line(reference_image, (x,y), (x1, y1), AiPhile.GREEN, 3, cv.LINE_AA)
 
 else:
     print('QR code is not, in reference image')
@@ -132,13 +107,10 @@ starting_time =time.time()
 while True:
     frame_counter +=1
     ret, frame = cap.read()
-    img = frame.copy()
-    # img = cv.resize(img, None, fx=2, fy=2,interpolation=cv.INTER_CUBIC)
-    cv.imshow('old frame ', old_gray)
-    cv.imshow('img', img)
+    cv.imshow('old gray frame ', old_gray)
 
     gray_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-    # display the image and wait for a keypress
+    
     clone = frame.copy()
     hull_points =detectQRcode(frame)
     # print(old_points.size)
@@ -162,26 +134,21 @@ while True:
         stop_code=True
         old_points = np.array([pt1, pt2, pt3, pt4], dtype=np.float32)
 
-        cv.circle(frame, pt1, 3, GREEN, 3)
+        cv.circle(frame, pt1, 3, AiPhile.GREEN, 3)
         cv.circle(frame, pt2, 3, (255, 0, 0), 3)
-        cv.circle(frame, pt3, 3, YELLOW, 3)
+        cv.circle(frame, pt3, 3, AiPhile.YELLOW, 3)
         cv.circle(frame, pt4, 3, (0, 0, 255), 3)
     if qr_detected and stop_code==False:
         AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=YELLOW)
 
-        # cv.putText(frame, 'Optical Flow', (30,50), cv.FONT_HERSHEY_COMPLEX, 1.0, YELLOW, 2)
-
-        # print('detecting')
         new_points, status, error = cv.calcOpticalFlowPyrLK(old_gray, gray_frame, old_points, None, **lk_params)
         old_points = new_points 
         new_points=new_points.astype(int)
-        # n = (len(new_points))
-        # print(new_points)
 
         frame =AiPhile.fillPolyTrans(frame, new_points, AiPhile.GREEN, 0.6)
-        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=GREEN)
-        cv.circle(frame, (new_points[1]), 3, BLACK, 2)
-        cv.circle(frame, (new_points[0]), 3, GREEN, 2)
+        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=AiPhile.GREEN)
+        cv.circle(frame, (new_points[1]), 3,AiPhile.BLACK, 2)
+        cv.circle(frame, (new_points[0]), 3,AiPhile.GREEN, 2)
 
         x, y = new_points[0].ravel()
         x1, y1 = new_points[1].ravel()  
@@ -193,10 +160,6 @@ while True:
     old_gray = gray_frame.copy()
     # press 'r' to reset the window
     key = cv.waitKey(1)
-    # if key == ord("s"):
-    #     cv.imwrite(f'reference_img/Ref_img{frame_counter}.png', img)
-
-    # # if the 'c' key is pressed, break from the loop
     if key == ord("q"):
         break
     fps = frame_counter/(time.time()-starting_time)
