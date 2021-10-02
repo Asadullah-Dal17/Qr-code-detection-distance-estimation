@@ -144,7 +144,7 @@ while True:
     # print(old_points.size)
     stop_code=False
     if hull_points:
-        AiPhile.textBGoutline(frame, f'Detection: Pyzbar', (30,80), scaling=0.5,bg_color=(AiPhile.PURPLE ))
+        
 
         pt1, pt2, pt3, pt4 = hull_points
 
@@ -152,7 +152,9 @@ while True:
         x1, y1 = pt2
         eucaldain_dist = eucaldainDistance(x, y, x1, y1) #height or width of qr code 
         distance = distancefinder(focal_length, KNOWN_WIDTH, eucaldain_dist)
-        AiPhile.textBGoutline(frame, f'Distance: {round(distance,2)} cm', (340,50), scaling=0.8,bg_color=AiPhile.PURPLE, text_color=AiPhile.YELLOW )
+        AiPhile.textBGoutline(frame, f'Distance: {round(distance,2)} cm', (340,50), scaling=0.8, text_color=AiPhile.MAGENTA )
+        frame =AiPhile.fillPolyTrans(frame, hull_points, AiPhile.MAGENTA, 0.6)
+        AiPhile.textBGoutline(frame, f'Detection: Pyzbar', (30,80), scaling=0.5,text_color=(AiPhile.MAGENTA ))
 
         # x, x1 = hull_points[0][0], hull_points[1][0]
         # y, y1 = hull_points[0][1], hull_points[1][1]
@@ -176,11 +178,8 @@ while True:
         # n = (len(new_points))
         # print(new_points)
 
-
-        cv.line(frame, new_points[0], new_points[1], MAGENTA, 3, cv.LINE_AA)
-        cv.line(frame, new_points[1], new_points[2], MAGENTA, 3, cv.LINE_AA)
-        cv.line(frame, new_points[2], new_points[3], MAGENTA, 3, cv.LINE_AA)
-        cv.line(frame, new_points[3], new_points[0], MAGENTA, 3, cv.LINE_AA)
+        frame =AiPhile.fillPolyTrans(frame, new_points, AiPhile.GREEN, 0.6)
+        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=GREEN)
         cv.circle(frame, (new_points[1]), 3, BLACK, 2)
         cv.circle(frame, (new_points[0]), 3, GREEN, 2)
 
@@ -189,7 +188,7 @@ while True:
         # print(x, y )
         qr_height = eucaldainDistance(x, y, x1, y1)
         distance = distancefinder(focal_length, KNOWN_WIDTH, qr_height)
-        AiPhile.textBGoutline(frame, f'Distance: {round(distance,2)} cm', (340,50), scaling=0.8,bg_color=AiPhile.BLACK, text_color=AiPhile.YELLOW )
+        AiPhile.textBGoutline(frame, f'Distance: {round(distance,2)} cm', (340,50), scaling=0.8,bg_color=AiPhile.BLACK, text_color=AiPhile.GREEN )
 
     old_gray = gray_frame.copy()
     # press 'r' to reset the window
