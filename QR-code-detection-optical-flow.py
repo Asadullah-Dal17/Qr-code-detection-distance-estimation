@@ -102,19 +102,21 @@ while True:
     # print(old_points.size)
     stop_code=False
     if hull_points:
-        AiPhile.textBGoutline(frame, f'Detection: Pyzbar', (30,80), scaling=0.5,bg_color=(AiPhile.PURPLE ))
 
         pt1, pt2, pt3, pt4 = hull_points
         qr_detected= True
         stop_code=True
         old_points = np.array([pt1, pt2, pt3, pt4], dtype=np.float32)
+        frame =AiPhile.fillPolyTrans(frame, hull_points, AiPhile.MAGENTA, 0.6)
+        AiPhile.textBGoutline(frame, f'Detection: Pyzbar', (30,80), scaling=0.5,text_color=(AiPhile.MAGENTA ))
+
+
 
         cv.circle(frame, pt1, 3, GREEN, 3)
         cv.circle(frame, pt2, 3, (255, 0, 0), 3)
         cv.circle(frame, pt3, 3, YELLOW, 3)
         cv.circle(frame, pt4, 3, (0, 0, 255), 3)
     if qr_detected and stop_code==False:
-        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=YELLOW)
 
         # cv.putText(frame, 'Optical Flow', (30,50), cv.FONT_HERSHEY_COMPLEX, 1.0, YELLOW, 2)
 
@@ -123,10 +125,10 @@ while True:
         old_points = new_points 
         new_points=new_points.astype(int)
         n = (len(new_points))
-        cv.line(frame, new_points[0], new_points[1], MAGENTA, 3, cv.LINE_AA)
-        cv.line(frame, new_points[1], new_points[2], MAGENTA, 3, cv.LINE_AA)
-        cv.line(frame, new_points[2], new_points[3], MAGENTA, 3, cv.LINE_AA)
-        cv.line(frame, new_points[3], new_points[0], MAGENTA, 3, cv.LINE_AA)
+        frame =AiPhile.fillPolyTrans(frame, new_points, AiPhile.GREEN, 0.6)
+        AiPhile.textBGoutline(frame, f'Detection: Optical Flow', (30,80), scaling=0.5,text_color=GREEN)
+
+
         cv.circle(frame, (new_points[0]), 3, GREEN, 2)
 
     
