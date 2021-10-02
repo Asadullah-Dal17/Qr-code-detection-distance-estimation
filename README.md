@@ -9,7 +9,23 @@
 -    Link: https://youtube.com/c/aiphile  -
 -------------------------------------------
 ''' -->
+
+
 # Qr-code-detection-distance-estimation
+
+## Installation of Python Modules
+
+### Windows 🪟
+#### OpenCV Python and Pyzbar 
+```
+pip install opencv-python pyzbar
+```
+## Linux 🐧 or mac 🍎
+
+#### OpenCV Python and PyZbar
+```
+pip3 install opencv-python pyzbar
+```
 
 Known width or height measurement, since QR code are Square(width and height are same here)
 
