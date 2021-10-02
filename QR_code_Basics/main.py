@@ -43,7 +43,7 @@ def detectQRcode(image):
         # Pos = hull[3]
         return hull
  
- cap = cv.VideoCapture(1)
+cap = cv.VideoCapture(0)
 
 frame_counter =0
 starting_time =time.time()
