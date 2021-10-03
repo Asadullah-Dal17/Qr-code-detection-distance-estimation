@@ -18,28 +18,27 @@ import pyzbar
 import time
 import math
 import AiPhile
-# now let's initialize the list of reference point
-# important variables 
+# important variables for distance Estimation. 
 KNOWN_WIDTH = 1.8 #centimeters
 KNOWN_DISTANCE = 15.5 # centimeters 
 
+# Find the Distance between to points 
 def eucaldainDistance(x, y, x1, y1):
 
     eucaldainDist = math.sqrt((x1 - x) ** 2 + (y1 - y) ** 2)
 
     return eucaldainDist
+
+# distance estimation function
 def focalLength(measured_distance, real_width, width_in_rf_image):
 
     focal_length = (width_in_rf_image * measured_distance) / real_width
     return focal_length
-# distance estimation function
-
-
-def distancefinder(Focal_Length, real_face_width, face_width_in_frame):
+    
+def distanceFinder(Focal_Length, real_face_width, face_width_in_frame):
 
     distance = (real_face_width * Focal_Length)/face_width_in_frame
     return distance
-
 
 # QR code detector function 
 
@@ -116,14 +115,13 @@ while True:
     # print(old_points.size)
     stop_code=False
     if hull_points:
-        
-
+    
         pt1, pt2, pt3, pt4 = hull_points
 
         x, y = pt1
         x1, y1 = pt2
         eucaldain_dist = eucaldainDistance(x, y, x1, y1) #height or width of qr code 
-        distance = distancefinder(focal_length, KNOWN_WIDTH, eucaldain_dist)
+        distance = distanceFinder(focal_length, KNOWN_WIDTH, eucaldain_dist)
         AiPhile.textBGoutline(frame, f'Distance: {round(distance,2)} cm', (340,50), scaling=0.8, text_color=AiPhile.MAGENTA )
         frame =AiPhile.fillPolyTrans(frame, hull_points, AiPhile.MAGENTA, 0.6)
         AiPhile.textBGoutline(frame, f'Detection: Pyzbar', (30,80), scaling=0.5,text_color=(AiPhile.MAGENTA ))
@@ -154,7 +152,7 @@ while True:
         x1, y1 = new_points[1].ravel()  
         # print(x, y )
         qr_height = eucaldainDistance(x, y, x1, y1)
-        distance = distancefinder(focal_length, KNOWN_WIDTH, qr_height)
+        distance = distanceFinder(focal_length, KNOWN_WIDTH, qr_height)
         AiPhile.textBGoutline(frame, f'Distance: {round(distance,2)} cm', (340,50), scaling=0.8,bg_color=AiPhile.BLACK, text_color=AiPhile.GREEN )
 
     old_gray = gray_frame.copy()
@@ -169,3 +167,4 @@ while True:
 
 # close all open windows
 cv.destroyAllWindows() 
+cap.release()
