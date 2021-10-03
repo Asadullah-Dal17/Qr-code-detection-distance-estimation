@@ -1,3 +1,4 @@
+# imporitng modules 
 import cv2 as cv
 import numpy as np
 import AiPhile
@@ -14,8 +15,7 @@ def selectPoint(event, x, y, flags, params):
 lk_params = dict(winSize=(20, 20),
                  maxLevel=4,
                  criteria=(cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 0.01))
-  
-        
+      
 cap = cv.VideoCapture(0)
 _, frame = cap.read()
 old_gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -46,9 +46,7 @@ while True:
         x, y = new_points.ravel()
         cv.line(frame, (x+2,y-2) ,(x+20, y-30), AiPhile.GREEN, 2, cv.LINE_AA)
         AiPhile.textBGoutline(frame, f'Tracking Point', (x+20, y-30),scaling=0.5)
-        
-        #print(x, y)
-        
+                
         cv.circle(frame, (x, y), 6, (0, 255, 255), 4)
     fps = frame_counter/(time.time()-starting_time)
     AiPhile.textBGoutline(frame, f'FPS: {round(fps,1)}', (30, 40))
