@@ -10,7 +10,7 @@
 -------------------------------------------
 ''' -->
 
-# Qr-code-detection-distance-estimation [🔒 Private Repo]
+# Qr-code-detection-distance-estimation 🔒 Private
 
 ## Installation of Python Modules
 
